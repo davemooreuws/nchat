@@ -2,12 +2,20 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Header } from "@/components/header";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "NChat",
-  description: "Created by David Moore",
+const title = "NChat";
+const description = "Realtime chat using Websockets, Next.js, Nitric and Clerk";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+  },
 };
 
 export default function RootLayout({
