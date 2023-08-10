@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     title,
     description,
   },
+  metadataBase: new URL("https://nchat.nitric.rocks"),
 };
 
 export default function RootLayout({
