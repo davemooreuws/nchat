@@ -1,6 +1,6 @@
 # NChat
 
-Realtime chat using Websockets, Next.js and Clerk.
+Realtime chat using Websockets, Next.js, [Nitric](https://nitric.io) and Clerk.
 
 ![NChat App](/src/app/opengraph-image.png)
 
@@ -13,9 +13,17 @@ Realtime chat using Websockets, Next.js and Clerk.
 
 ## Demo
 
-You can view and participate in a live demo [here](https://nchat.nitric.rocks/)
+You can view and participate in a live demo [here](https://nchat.nitric.rocks/).
+
+> Apologies if the demo is down, if you're interested in trying it out let me know in issues or you can also run it on your local machine or deploy it to your own AWS account.
 
 ## Local Development
+
+### Requirements
+
+- [Nitric CLI](https://nitric.io/docs/guides/getting-started/installation)
+- Node.js
+- yarn
 
 1. `yarn install`
 2. Install the [Nitric CLI](https://nitric.io/docs/guides/getting-started/installation)
@@ -27,6 +35,14 @@ You can view and participate in a live demo [here](https://nchat.nitric.rocks/)
 8. `yarn dev`
 
 ## Deploy to Production
+
+### Requirements
+
+- [Nitric CLI](https://nitric.io/docs/guides/getting-started/installation)
+- Node.js
+- yarn
+- Pulumi configured on your machine
+- AWS configured on your machine
 
 1. Fork and Push this repo to GitHub
 2. Create a [Clerk App](https://dashboard.clerk.com/apps/new) for production purposes.
