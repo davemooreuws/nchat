@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
+    type: "website",
   },
   metadataBase: new URL("https://nchat.nitric.rocks"),
 };
