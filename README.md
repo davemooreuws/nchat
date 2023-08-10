@@ -25,6 +25,8 @@ You can view and participate in a live demo [here](https://nchat.nitric.rocks/).
 - Node.js
 - yarn
 
+### Steps
+
 1. `yarn install`
 2. Install the [Nitric CLI](https://nitric.io/docs/guides/getting-started/installation)
 3. Create a [Clerk App](https://dashboard.clerk.com/apps/new) for development purposes.
@@ -43,6 +45,8 @@ You can view and participate in a live demo [here](https://nchat.nitric.rocks/).
 - yarn
 - Pulumi configured on your machine
 - AWS configured on your machine
+
+### Steps
 
 1. Fork and Push this repo to GitHub
 2. Create a [Clerk App](https://dashboard.clerk.com/apps/new) for production purposes.
