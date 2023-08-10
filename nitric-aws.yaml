@@ -1,0 +1,9 @@
+name: aws
+provider: nitric/aws@0.32.0
+region: us-east-1
+refresh: true
+config:
+  default:
+    lambda:
+      timeout: 30
+      memory: 512

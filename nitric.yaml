@@ -1,0 +1,6 @@
+name: nchat
+handlers:
+  - backend/*.ts
+preview-features:
+  - websockets
+  - http
