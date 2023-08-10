@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 const title = "NChat";
 const description = "Realtime chat using Websockets, Next.js, Nitric and Clerk";
+const url = "https://nchat.nitric.rocks";
 
 export const metadata: Metadata = {
   title,
@@ -16,8 +17,9 @@ export const metadata: Metadata = {
     title,
     description,
     type: "website",
+    url,
   },
-  metadataBase: new URL("https://nchat.nitric.rocks"),
+  metadataBase: new URL(url),
 };
 
 export default function RootLayout({
