@@ -1,15 +1,15 @@
 # NChat
 
-Realtime chat using Websockets, Next.js, [Nitric](https://nitric.io) and Clerk.
+Realtime chat using Websockets, Next.js, Nitric and Clerk.
 
 ![NChat App](/src/app/opengraph-image.png)
 
 ## Tools used
 
-- Clerk
-- Next.js
-- Nitric
-- Tailwind CSS
+- [Clerk](https://clerk.com)
+- [Next.js](https://nextjs.org)
+- [Nitric](https://nitric.io)
+- [Tailwind CSS](https://tailwindcss.com)
 
 ## Demo
 
