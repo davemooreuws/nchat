@@ -37,7 +37,7 @@ const useMessages = (websocketUrl: string, initialMessages: Message[]) => {
     }
   );
 
-  const send = (data: any) => {
+  const send = (data: Message) => {
     socketRef.current?.send(JSON.stringify(data));
   };
 

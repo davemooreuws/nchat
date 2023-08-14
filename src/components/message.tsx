@@ -42,16 +42,18 @@ export const Message = ({ message, isLast }: Props) => {
             </span>{" "}
             messaged
           </div>
-          <time
-            dateTime={message.createdAt.toString()}
-            className='flex-none py-0.5 text-xs leading-5 text-gray-500'
-          >
-            {differenceInHours(new Date(), new Date(message.createdAt)) >= 1
-              ? formatRelative(new Date(message.createdAt), new Date())
-              : formatDistance(new Date(message.createdAt), new Date(), {
-                  addSuffix: true,
-                })}
-          </time>
+          {message.createdAt && (
+            <time
+              dateTime={message.createdAt.toString()}
+              className='flex-none py-0.5 text-xs leading-5 text-gray-500'
+            >
+              {differenceInHours(new Date(), new Date(message.createdAt)) >= 1
+                ? formatRelative(new Date(message.createdAt), new Date())
+                : formatDistance(new Date(message.createdAt), new Date(), {
+                    addSuffix: true,
+                  })}
+            </time>
+          )}
         </div>
         <p className='text-sm leading-6 text-gray-500'>
           {typeof message.body === "string" ? message.body : null}

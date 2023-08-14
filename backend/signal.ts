@@ -12,10 +12,7 @@ const authMiddleware: faas.WebsocketMiddleware = async (ctx, next) => {
       throw new Error("no access_token query param");
     }
 
-    const payload = await clerk.verifyToken(access_token![0]);
-
-    // @ts-ignore
-    ctx.userId = payload.sub;
+    await clerk.verifyToken(access_token![0]);
 
     return next(ctx);
   } catch (e) {
@@ -40,7 +37,7 @@ export const broadcast = async (data: Message | Message[]) => {
     try {
       // Send message to a connection
       await signal.send(content.connectionId, JSON.stringify(data));
-      console.log(`successfull send ${content.connectionId}`);
+      console.log(`successfull sent ${content.connectionId}`);
     } catch (e: any) {
       if (e.message.startsWith("13 INTERNAL: could not get connection")) {
         console.log(
@@ -60,9 +57,6 @@ signal.on("connect", authMiddleware, async (ctx) => {
     await connectionsdb.doc(ctx.req.connectionId).set({
       // store any metadata related to the connection here
       connectionId: ctx.req.connectionId,
-      // store clerk userId for use on message callback
-      //@ts-ignore
-      userId: ctx.userId,
     });
   } catch (e) {
     console.log(e);
@@ -83,17 +77,9 @@ signal.on("disconnect", async (ctx) => {
 signal.on("message", async (ctx) => {
   try {
     const data = ctx.req.json() as Message;
-    const { userId } = await connectionsdb.doc(ctx.req.connectionId).get();
-
-    const user = await clerk.users.getUser(userId);
-    const githubData = user.externalAccounts.find(
-      (provider) => provider.provider === "oauth_github"
-    );
 
     const message = {
       ...data,
-      username: githubData?.username || "",
-      avatar: githubData?.imageUrl || "",
       createdAt: new Date().getTime(),
     };
 

@@ -37,6 +37,8 @@ export const NewMessageForm = ({ send }) => {
           if (body) {
             send({
               body,
+              username: githubAcc.username,
+              avatar: githubAcc.imageUrl,
             });
 
             setBody("");
