@@ -11,7 +11,6 @@ export interface Message {
 
 export interface Connection {
   connectionId: string;
-  userId: string;
 }
 
 export const messagesdb = collection<Message>("db").for(
