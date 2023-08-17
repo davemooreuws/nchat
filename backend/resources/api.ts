@@ -1,8 +1,25 @@
 import clerk from "@clerk/clerk-sdk-node";
 import { api, faas } from "@nitric/sdk";
 
+const corsMiddleware: faas.HttpMiddleware = async (ctx, next) => {
+  ctx.res.headers["Access-Control-Allow-Origin"] = ["*"];
+  ctx.res.headers["Access-Control-Allow-Headers"] = [
+    "Origin",
+    "Content-Type",
+    "Accept",
+    "Authorization",
+  ];
+  ctx.res.headers["Access-Control-Allow-Methods"] = ["GET", "OPTIONS"];
+
+  return next(ctx);
+};
+
 const authMiddleware: faas.HttpMiddleware = async (ctx, next) => {
   try {
+    if (ctx.req.method === "OPTIONS") {
+      return ctx;
+    }
+
     if (!ctx.req.headers["authorization"]) {
       throw new Error("missing authorization header");
     }
@@ -23,5 +40,5 @@ const authMiddleware: faas.HttpMiddleware = async (ctx, next) => {
 };
 
 export default api("nchat", {
-  middleware: authMiddleware,
+  middleware: [corsMiddleware, authMiddleware],
 });

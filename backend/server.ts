@@ -20,6 +20,8 @@ api.get("/ws-address", async (ctx) => {
   }
 });
 
+api.options("/messages", (ctx) => ctx);
+
 api.get("/messages", async (ctx) => {
   try {
     const messages = await messagesdb.query().limit(100).fetch();

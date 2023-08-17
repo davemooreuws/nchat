@@ -6,18 +6,13 @@ import useMessages from "@/hooks/useMessages";
 import { Message } from "./message";
 import { useInView } from "react-intersection-observer";
 import { NewMessageForm } from "./new-message-form";
-import { Message as IMessage } from "../../backend/resources/db";
 
 interface Props {
-  messages: IMessage[];
   websocketUrl: string;
 }
 
-export default function MessageFeed({
-  messages: initialMessages,
-  websocketUrl,
-}: Props) {
-  const { messages, send } = useMessages(websocketUrl, initialMessages);
+export default function MessageFeed({ websocketUrl }: Props) {
+  const { messages, send, loaded } = useMessages(websocketUrl);
   const [scrollRef, inView, entry] = useInView({
     trackVisibility: true,
     delay: 1000,
@@ -29,17 +24,17 @@ export default function MessageFeed({
     }
   }, [messages?.length, entry?.target]);
 
-  if (!messages) {
+  if (!loaded) {
     return (
       <div className='flex items-center justify-center h-full'>
-        <p className='text-white'>Fetching most recent chat messages.</p>
+        <p className='text-gray-900'>Fetching most recent chat messages.</p>
       </div>
     );
   }
 
   return (
     <>
-      {!inView && messages?.length && (
+      {!inView && messages?.length ? (
         <div className='py-1.5 w-full px-3 z-10 text-xs fixed flex justify-center bottom-0 mb-[120px] inset-x-0'>
           <button
             className='py-1.5 px-3 text-xs bg-primary border border-primary/30 rounded-full text-white font-medium'
@@ -53,7 +48,7 @@ export default function MessageFeed({
             Scroll to see latest messages
           </button>
         </div>
-      )}
+      ) : null}
       <ul role='list' className='space-y-6'>
         {messages.map((message, idx) => (
           <li key={idx} className='relative flex gap-x-4'>
