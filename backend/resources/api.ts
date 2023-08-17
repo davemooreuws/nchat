@@ -4,12 +4,9 @@ import { api, faas } from "@nitric/sdk";
 const corsMiddleware: faas.HttpMiddleware = async (ctx, next) => {
   ctx.res.headers["Access-Control-Allow-Origin"] = ["*"];
   ctx.res.headers["Access-Control-Allow-Headers"] = [
-    "Origin",
-    "Content-Type",
-    "Accept",
-    "Authorization",
+    "Origin, Content-Type, Accept, Authorization",
   ];
-  ctx.res.headers["Access-Control-Allow-Methods"] = ["GET", "OPTIONS"];
+  ctx.res.headers["Access-Control-Allow-Methods"] = ["GET,OPTIONS"];
 
   return next(ctx);
 };
