@@ -1,5 +1,5 @@
 import signal from "./resources/signal";
-import { Message, connectionsdb, messagesdb } from "./resources/db";
+import { Connection, Message, connectionsdb, messagesdb } from "./resources/db";
 import clerk from "@clerk/clerk-sdk-node";
 import type { faas } from "@nitric/sdk";
 import { generate } from "short-uuid";
@@ -29,14 +29,13 @@ export const broadcast = async (data: Message | Message[]) => {
   // send to all connections
   const connectionStream = connectionsdb.query().stream();
 
-  const streamEnd = new Promise<any>((res) => {
-    connectionStream.on("end", res);
-  });
-
-  connectionStream.on("data", async ({ content }) => {
+  for await (const chunk of connectionStream) {
+    // @ts-ignore
+    const content = chunk.content as Connection;
     try {
       // Send message to a connection
-      await signal.send(content.connectionId, JSON.stringify(data));
+      console.log(`sending message to ${content.connectionId}`);
+      await signal.send(content.connectionId, data);
       console.log(`successfull sent ${content.connectionId}`);
     } catch (e: any) {
       if (e.message.startsWith("13 INTERNAL: could not get connection")) {
@@ -45,10 +44,10 @@ export const broadcast = async (data: Message | Message[]) => {
         );
         await connectionsdb.doc(content.connectionId).delete();
       }
-    }
-  });
 
-  await streamEnd;
+      console.log(`error sending message to ${content.connectionId}`, e);
+    }
+  }
 };
 
 signal.on("connect", authMiddleware, async (ctx) => {
