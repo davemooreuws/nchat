@@ -2,17 +2,28 @@ import useSWRSubscription from "swr/subscription";
 import { Message } from "../../backend/resources/db";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { fetcher } from "@/utils/fetcher";
 
-const useMessages = (websocketUrl: string, initialMessages: Message[]) => {
+const useMessages = (websocketUrl: string) => {
   const socketRef = useRef<WebSocket>();
   const { getToken, isSignedIn } = useAuth();
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [loaded, setLoaded] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [token, setToken] = useState<string | null>();
 
   useEffect(() => {
     if (isSignedIn) {
       (async () => {
-        setToken(await getToken());
+        const token = await getToken();
+        setToken(token);
+
+        const initialMessages = await fetcher("/messages", token, {
+          headers: {
+            "content-type": "application/json",
+          },
+        }).then((res) => res.json());
+
+        setMessages(initialMessages);
       })();
     }
   }, [isSignedIn]);
@@ -30,6 +41,10 @@ const useMessages = (websocketUrl: string, initialMessages: Message[]) => {
         next(null, data);
       });
 
+      socketRef.current.addEventListener("open", () => {
+        setLoaded(true);
+      });
+
       socketRef.current.addEventListener("error", (event: any) =>
         next(event.error)
       );
@@ -44,6 +59,7 @@ const useMessages = (websocketUrl: string, initialMessages: Message[]) => {
   return {
     messages,
     send,
+    loaded,
   };
 };
 
