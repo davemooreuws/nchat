@@ -4,6 +4,8 @@ Realtime chat using Websockets, Next.js, Nitric and Clerk.
 
 ![NChat App](/src/app/opengraph-image.png)
 
+> This example uses nitric v0, please raise an issue if you would like a v1 example.
+
 ## Tools used
 
 - [Clerk](https://clerk.com)
